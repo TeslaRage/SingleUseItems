@@ -8,36 +8,8 @@ var config array<int> ItemObjectIDs; // Feels bad man
 // --------------------------------------------------
 static event OnPostTemplatesCreated()
 {
-	local X2ItemTemplateManager ItemTemplateMan;
-	local array<X2DataTemplate> DataTemplates;
-	local X2DataTemplate DataTemplate;
-	local X2EquipmentTemplate EqTemplate;
-	local array<name> AbilityList;
-	local name TemplateName, AbilityFromEq;
-
-	ItemTemplateMan = class'X2ItemTemplateManager'.static.GetItemTemplateManager();
-
 	// Adding a passive ability that does nothing but convey information to players
-	foreach default.LimitedUseItems(TemplateName)
-	{
-		ItemTemplateMan.FindDataTemplateAllDifficulties(TemplateName, DataTemplates);
-
-		foreach DataTemplates(DataTemplate)
-		{
-			EqTemplate = X2EquipmentTemplate(DataTemplate);
-			if (EqTemplate == none) continue;
-
-			AbilityList.Length = 0;
-			AbilityList.AddItem('TRLimitedUsePassive');
-
-			foreach EqTemplate.Abilities(AbilityFromEq)
-			{
-				AbilityList.AddItem(AbilityFromEq);
-			}
-
-			EqTemplate.Abilities = AbilityList;
-		}
-	}	
+	AttachAbilitiesToItems();
 }
 
 static event OnPostMission()
@@ -67,6 +39,39 @@ static function bool DisplayQueuedDynamicPopup(DynamicPropertySet PropertySet)
 // --------------------------------------------------
 // HELPERS
 // --------------------------------------------------
+static function AttachAbilitiesToItems()
+{
+	local X2ItemTemplateManager ItemTemplateMan;
+	local array<X2DataTemplate> DataTemplates;
+	local X2DataTemplate DataTemplate;
+	local X2EquipmentTemplate EqTemplate;
+	local array<name> AbilityList;
+	local name TemplateName, AbilityFromEq;
+
+	ItemTemplateMan = class'X2ItemTemplateManager'.static.GetItemTemplateManager();
+	
+	foreach default.LimitedUseItems(TemplateName)
+	{
+		ItemTemplateMan.FindDataTemplateAllDifficulties(TemplateName, DataTemplates);
+
+		foreach DataTemplates(DataTemplate)
+		{
+			EqTemplate = X2EquipmentTemplate(DataTemplate);
+			if (EqTemplate == none) continue;
+
+			AbilityList.Length = 0;
+			AbilityList.AddItem('TRLimitedUsePassive');
+
+			foreach EqTemplate.Abilities(AbilityFromEq)
+			{
+				AbilityList.AddItem(AbilityFromEq);
+			}
+
+			EqTemplate.Abilities = AbilityList;
+		}
+	}	
+}
+
 static function RemoveLimitedUseItems()
 {
 	local XComGameState_HeadquartersXCom XComHQ;
