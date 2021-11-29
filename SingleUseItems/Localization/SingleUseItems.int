@@ -1,0 +1,3 @@
+[UIAlert_SingleUseItems]
+m_strItemDestroyed = "LIMITED USE ITEM DISINTEGRATED"
+m_strItemRemovedInInventory = "%ITEMNAME has been removed from inventory!"
