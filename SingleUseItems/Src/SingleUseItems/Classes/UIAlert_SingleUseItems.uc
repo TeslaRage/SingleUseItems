@@ -45,5 +45,5 @@ simulated function BuildItemDestroyedAlert()
 
 	kInfo = FillInShenAlertAvailable(kInfo);
 
-	BuildAvailableAlert(kInfo); // Just a comment
+	BuildAvailableAlert(kInfo);
 }
